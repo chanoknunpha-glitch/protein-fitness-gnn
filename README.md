@@ -1,6 +1,6 @@
 # Protein Fitness Prediction using Sequence–Structure Embeddings and Graph Neural Networks
 
-Code accompanying the manuscript *"<Representation Learning for Low-Data Protein 1 Fitness Prediction Using Sequence-Structure 2 Embeddings and Graph Neural Networks>"* (submitted to *Scientific Reports*).
+Code accompanying the manuscript *"<Representation Learning for Low-Data Protein 1 Fitness Prediction Using Sequence-Structure Embeddings and Graph Neural Networks>"* (submitted to *Scientific Reports*).
 
 Each variant is turned into a residue-level graph from a predicted structure and
 a pretrained MIF-ST representation, then passed through a three-layer `NNConv`
