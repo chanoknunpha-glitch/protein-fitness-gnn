@@ -1,6 +1,6 @@
-# Structure-aware GNN for predicting TEM β-lactamase variant fitness
+# Protein Fitness Prediction using Sequence–Structure Embeddings and Graph Neural Networks
 
-Code accompanying the manuscript *"<paper title>"* (submitted to *Scientific Reports*).
+Code accompanying the manuscript *"<Representation Learning for Low-Data Protein 1 Fitness Prediction Using Sequence-Structure 2 Embeddings and Graph Neural Networks>"* (submitted to *Scientific Reports*).
 
 Each variant is turned into a residue-level graph from a predicted structure and
 a pretrained MIF-ST representation, then passed through a three-layer `NNConv`
@@ -11,7 +11,7 @@ GNN with global mean pooling and a linear regression head.
 | File / folder | What it is |
 |---|---|
 | `extract_mifst_clean.ipynb` | step 1 — extracts the per-residue MIF-ST representations |
-| `mifst_fitness_ver_result_Model5_dataset_80_20.ipynb` | step 2 — builds the graphs, tunes, trains and evaluates the model |
+| `model5_mifst.ipynb` | step 2 — builds the graphs, tunes, trains and evaluates the model |
 | `pdb_utils.py`, `pretrained.py`, `collaters.py`, ... | MIF-ST source files (see `THIRD_PARTY_NOTICES.md`) |
 | `SOFTWARE_ENVIRONMENT.md` | the packages used, and the baseline protocol described in the paper |
 | `data/` | variants, splits, structures and extracted representations |
@@ -36,7 +36,7 @@ the three paths in the Config cell, run all:
 ```
 CSV_PATH = "data/demo_50_variants.csv"
 PDB_DIR  = "data/PDB_AlphaFold/"
-OUT_DIR  = "data/output_extract_mif_AlphaFold/"
+OUT_DIR  = "data/output_extract_mifst_AlphaFold/"
 ```
 
 One `<name>_mifst_per_tok.pt` of shape `[286, 256]` is written per variant. The
@@ -58,7 +58,7 @@ Each csv has the columns:
 | `sequence` | full 286-residue amino-acid sequence |
 | `fitness` | the regression target |
 | `pdb` | file name inside `data/PDB_AlphaFold/` |
-| `embed` | file name inside `data/output_extract_mif_AlphaFold/` |
+| `embed` | file name inside `data/output_extract_mifst_AlphaFold/` |
 
 `train.csv`, `val.csv` and `test.csv` are disjoint: the validation set is used
 for the Optuna objective and must not overlap the test set.
