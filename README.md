@@ -1,6 +1,8 @@
 # Protein Fitness Prediction using Sequence–Structure Embeddings and Graph Neural Networks
 
-Code accompanying the manuscript *"<Representation Learning for Low-Data Protein 1 Fitness Prediction Using Sequence-Structure Embeddings and Graph Neural Networks>"* (submitted to *Scientific Reports*).
+Code accompanying the manuscript *"Representation Learning for Low-Data Protein
+Fitness Prediction Using Sequence–Structure Embeddings and Graph Neural
+Networks"* (under review at *Scientific Reports*).
 
 Each variant is turned into a residue-level graph from a predicted structure and
 a pretrained MIF-ST representation, then passed through a three-layer `NNConv`
@@ -43,10 +45,10 @@ One `<name>_mifst_per_tok.pt` of shape `[286, 256]` is written per variant. The
 representation depends on the sequence and the structure only, so this is done
 once and reused by every split.
 
-**2. Train and evaluate.** Open
-`mifst_fitness_ver_result_Model5_dataset_80_20.ipynb`, point the paths at
-`data/`, run all. It builds the graphs, runs the Optuna search, trains the final
-model for 200 epochs and prints the test metrics.
+**2. Train and evaluate.** Open `model5_mifst.ipynb`, check the paths in the
+Config cell, run all. It builds the graphs, runs the Optuna search, trains the
+final model for 200 epochs and reports the metrics. A smoke-test cell runs three
+epochs first, so you can check the timing before committing to the full run.
 
 ## Data
 
@@ -67,9 +69,32 @@ The fitness measurements and predicted structures used in the paper are not ours
 to redistribute. What ships here instead is a public demo set:
 `demo_50_variants.csv` holds 50 single mutants of TEM-1 β-lactamase drawn with
 seed 42 from `BLAT_ECOLX_Stiffler_2015` in [ProteinGym](https://proteingym.org),
-split 30 / 10 / 10. Results on this set are **not** the paper's results; the demo
-exists so a reader can run the code. Please cite Stiffler et al. (2015) and the
-ProteinGym benchmark if you use it.
+split 30 / 10 / 10, with one predicted structure per variant in
+`data/PDB_AlphaFold/`. Please cite Stiffler et al. (2015) and the ProteinGym
+benchmark if you use it.
+
+**What the demo can and cannot show.** The demo differs from the data used in the
+paper in two ways that matter.
+
+First, it has 30 training variants rather than 122, against a model whose first
+layer alone has 4.3 M parameters.
+
+Second, and more importantly, every demo variant is a *single* mutant, so any two
+sequences differ at one position out of 286. The variants in the paper carry one
+to five mutations on a common background. After global mean pooling over the 286
+residues, a one-residue difference is a fraction of a percent of the graph
+representation, which makes the regression substantially harder than the task the
+architecture was designed for.
+
+In our own run of the demo the model does learn a usable signal — a validation
+mean squared error of about 1.06, against 1.43 for simply predicting the training
+mean — but the test split has only 10 variants, and a correlation estimated from
+10 points has a 95% confidence interval spanning roughly −0.8 to +0.5.
+
+The numbers this notebook produces are therefore **not** indicative of the
+method's performance and are not the results reported in the paper. The demo
+exists so that a reader can verify the implementation runs end to end on public
+data.
 
 ## Method summary
 
@@ -86,8 +111,9 @@ ProteinGym benchmark if you use it.
 * **Training** — MSE loss, Adam, `batch_size = 1`, 200 epochs. Hyperparameters
   chosen by 30 Optuna trials of 15 epochs over learning rate (1e-4–1e-3, log),
   weight decay (1e-6–1e-3, log) and dropout (0.1–0.5). The setting reported in
-  the paper for the 80:20 split: lr 7.111e-4, weight decay 1.315e-6, dropout
-  0.2169.
+  the paper for the 80:20 split is lr 7.111e-4, weight decay 1.315e-6, dropout
+  0.2169; the notebook has a cell that sets these directly, so the search can be
+  skipped.
 
 ## Notes for anyone reproducing this
 
