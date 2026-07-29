@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this code, please cite the paper below."
 title: "Structure-aware GNN for predicting TEM beta-lactamase variant fitness"
 authors:
-  - family-names: "Phunnassorn"
+  - family-names: "Phunnasorn"
     given-names: "Chanoknun"
 version: "1.0.0"
 date-released: "2026-07-29"
@@ -10,9 +10,9 @@ license: MIT
 repository-code: "https://github.com/chanoknunpha-glitch/protein-fitness-gnn.git"
 preferred-citation:
   type: article
-  title: "<Representation Learning for Low-Data Protein Fitness Prediction Using Sequence-Structure Embeddings and Graph Neural Networks>"
+  title: "Protein Fitness Prediction using Sequence–Structure Embeddings and Graph Neural Networks"
   journal: "Scientific Reports"
   year: 2026
   authors:
-    - family-names: "Phunnassorn"
+    - family-names: "Phunnasorn"
       given-names: "Chanoknun"
